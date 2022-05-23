@@ -1,7 +1,7 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { OrderEntity } from 'src/modules/order/applicationCore/domain/order.entity';
 
 import { OrderRepositoryPort } from 'src/modules/order/applicationCore/ports/order.repository.port';
-import { ShipmentDto } from 'src/modules/shipment/userInterface/dtos';
 
 @Injectable()
 export class UpdateShipmentState {
@@ -9,18 +9,8 @@ export class UpdateShipmentState {
 
   constructor(private readonly orderRepository: OrderRepositoryPort) {}
 
-  async update(shipment: ShipmentDto) {
-    this.logger.verbose('Updating Shipment');
-
-    const orderEntity = await this.orderRepository.getOrderById(
-      shipment.orderId,
-    );
-
-    if (!orderEntity) {
-      throw new NotFoundException('Order Not Found');
-    }
-
-    orderEntity.updateShipment(shipment);
+  async update(orderEntity: OrderEntity) {
+    this.logger.log(`Updating shipment from order entity ${orderEntity}`);
 
     await this.orderRepository.updateOrder(orderEntity);
   }

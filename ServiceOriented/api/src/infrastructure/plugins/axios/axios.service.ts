@@ -1,15 +1,12 @@
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosResponse,
-  AxiosRequestConfig,
-} from 'axios';
+import { Provider } from '@nestjs/common';
+
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 import { Agent as AgentHttp } from 'http';
 import { Agent as AgentHttps } from 'https';
 
 import { RequestProvider } from 'src/infrastructure/interfaces';
 
-export class AxiosService implements RequestProvider {
+export class AxiosAdapter implements RequestProvider {
   private readonly client: AxiosInstance;
 
   constructor(
@@ -30,10 +27,10 @@ export class AxiosService implements RequestProvider {
     });
   }
 
-  async get(
+  async get<T>(
     url: string,
     config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse | AxiosError> {
+  ): Promise<AxiosResponse<T>> {
     return this.client.get(url, config);
   }
 
@@ -41,7 +38,7 @@ export class AxiosService implements RequestProvider {
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse | AxiosError> {
+  ): Promise<AxiosResponse> {
     return this.client.post(url, data, config);
   }
 
@@ -49,14 +46,19 @@ export class AxiosService implements RequestProvider {
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse | AxiosError> {
+  ): Promise<AxiosResponse> {
     return this.client.put(url, config, data);
   }
 
   async delete(
     url: string,
     config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse | AxiosError> {
+  ): Promise<AxiosResponse> {
     return this.client.delete(url, config);
   }
 }
+
+export const AxiosProvider: Provider<RequestProvider> = {
+  provide: RequestProvider,
+  useClass: AxiosAdapter,
+};

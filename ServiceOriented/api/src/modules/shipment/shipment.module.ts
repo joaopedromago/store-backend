@@ -7,7 +7,7 @@ import {
   OrderEntitySchema,
 } from 'src/modules/order/applicationCore/domain/order.entity';
 import { UpdateShipmentState } from 'src/modules/shipment/applicationCore/applicationServices/useCases';
-import { ShipmentController } from 'src/modules/shipment/userInterface/restControllers/shipment.controller';
+import { ShipmentController } from 'src/modules/shipment/userInterface/eventControllers/shipment.controller';
 
 @Module({
   imports: [

@@ -5,5 +5,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export const serviceConfig = {
-  mongoUrl: process.env.MONGO_URL || 'mongodb://localhost:27017/ServiceOrientedApiDb',
+  mongoUrl:
+    process.env.MONGO_URL || 'mongodb://localhost:27017/ServiceOrientedApiDb',
+  kafkaUrl: process.env.KAFKA_URL,
+  kafkaClientId: process.env.KAFKA_CLIENT_ID,
 };
