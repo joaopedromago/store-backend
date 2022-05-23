@@ -3,7 +3,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 function init(app: INestApplication): void {
   const options = new DocumentBuilder()
-    .setTitle('Store Beckend')
+    .setTitle('Store Backend')
     .setDescription("Your best shop to spend all your money")
     .setVersion('1.0')
     .build();

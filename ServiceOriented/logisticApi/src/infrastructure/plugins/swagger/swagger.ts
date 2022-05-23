@@ -3,8 +3,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 function init(app: INestApplication): void {
   const options = new DocumentBuilder()
-    .setTitle('Tabacconist Beckend')
-    .setDescription("Your best tabacco's shop even for illegal things")
+    .setTitle('Store Backend - Logistic Api')
+    .setDescription("Your best shop to spend all your money")
     .setVersion('1.0')
     .build();
 
