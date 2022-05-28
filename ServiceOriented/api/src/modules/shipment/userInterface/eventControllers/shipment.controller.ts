@@ -2,7 +2,7 @@ import { Controller, Logger } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
 
 import { IncomingKafkaMessage } from 'src/infrastructure/adapters/event/incoming-kafka-message';
-import { OrderEntity } from 'src/modules/order/applicationCore/domain/order.entity';
+import { OrderDto } from 'src/modules/order/userInterface/dtos';
 import { UpdateShipmentState } from 'src/modules/shipment/applicationCore/applicationServices/useCases';
 import { Topic } from 'src/shared/enums/topics';
 
@@ -15,9 +15,9 @@ export class ShipmentController {
   ) {}
 
   @EventPattern(Topic.UpdateShipmentState)
-  async handle(@Payload() data: IncomingKafkaMessage<OrderEntity>) {
+  async handle(@Payload() data: IncomingKafkaMessage<OrderDto>) {
     this.logger.verbose(
-      `Received delta updates: ${JSON.stringify(data.value)}`,
+      `Received shipment update: ${JSON.stringify(data.value)}`,
     );
     if (!data.value) {
       this.logger.error(`Change Stream has no value`);

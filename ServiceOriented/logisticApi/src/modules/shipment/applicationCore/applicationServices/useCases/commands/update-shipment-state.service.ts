@@ -19,8 +19,9 @@ export class UpdateShipmentState {
     this.logger.verbose('Updating Shipment');
 
     const result = await this.requestProvider.get<OrderDto>(
-      `${serviceConfig.getOrderUrl}/${shipment.orderId}`,
+      `${serviceConfig.getOrderUrl}${shipment.orderId}`,
     );
+    this.logger.verbose(`Order Retrieved ${result.data}`);
 
     const order = result.data;
 

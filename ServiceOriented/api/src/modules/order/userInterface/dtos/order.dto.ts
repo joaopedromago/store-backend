@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
+import { ShipmentDto } from 'src/modules/shipment/userInterface/dtos/shipment.dto';
 
 export class OrderProductDto {
   @IsNotEmpty()
@@ -73,6 +74,10 @@ export class AddressDto {
 }
 
 export class OrderDto {
+  @IsOptional()
+  @ApiProperty()
+  _id?: string;
+
   @IsNotEmpty()
   @ApiProperty({
     type: () => [OrderItemDto],
@@ -86,4 +91,8 @@ export class OrderDto {
   @IsNotEmpty()
   @ApiProperty()
   address: AddressDto;
+  
+  @IsOptional()
+  @ApiProperty()
+  shipment?: ShipmentDto;
 }
