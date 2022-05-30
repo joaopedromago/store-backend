@@ -2,7 +2,12 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { ProductRepositoryProvider } from 'src/infrastructure/adapters/repository/product.repository';
-import { InventoryManage } from 'src/modules/inventory/applicationCore/applicationServices/useCases';
+import {
+  AddProductInventoryFromOrder,
+  InventoryManage,
+  ManageProductInventoryFromOrderCreation,
+  ManageProductInventoryFromOrderUpdate,
+} from 'src/modules/inventory/applicationCore/applicationServices/useCases';
 import { InventoryController } from 'src/modules/inventory/userInterface/restControllers/inventory.controller';
 import {
   ProductEntity,
@@ -18,7 +23,13 @@ import {
       },
     ]),
   ],
-  providers: [ProductRepositoryProvider, InventoryManage],
+  providers: [
+    ProductRepositoryProvider,
+    InventoryManage,
+    ManageProductInventoryFromOrderCreation,
+    ManageProductInventoryFromOrderUpdate,
+    AddProductInventoryFromOrder,
+  ],
   controllers: [InventoryController],
 })
 export class InventoryModule {}

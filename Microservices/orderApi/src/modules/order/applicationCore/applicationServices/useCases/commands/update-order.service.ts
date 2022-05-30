@@ -1,5 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 
+import { ManageProductInventoryFromOrderUpdate } from 'src/modules/inventory/applicationCore/applicationServices/useCases';
 import { OrderRepositoryPort } from 'src/modules/order/applicationCore/ports/order.repository.port';
 import { OrderDto } from 'src/modules/order/userInterface/dtos';
 
@@ -7,7 +8,10 @@ import { OrderDto } from 'src/modules/order/userInterface/dtos';
 export class UpdateOrder {
   private readonly logger = new Logger(UpdateOrder.name);
 
-  constructor(private readonly orderRepository: OrderRepositoryPort) {}
+  constructor(
+    private readonly orderRepository: OrderRepositoryPort,
+    private readonly manageProductInventoryFromOrderUpdateService: ManageProductInventoryFromOrderUpdate,
+  ) {}
 
   async update(id: string, order: OrderDto) {
     this.logger.verbose('Updating Order');
@@ -18,59 +22,12 @@ export class UpdateOrder {
       throw new NotFoundException('Order Not Found');
     }
 
-    // TODO: call update inventory
-    // await this.changeInventory(order, orderEntity);
+    await this.manageProductInventoryFromOrderUpdateService.manage(
+      order,
+      orderEntity,
+    );
     orderEntity.updateValues(order);
 
     await this.orderRepository.updateOrder(orderEntity);
   }
-
-  // async changeInventory(newOrder: OrderDto, oldOrder: OrderEntity) {
-  //   const inventoryChanges: InventoryDto[] = [];
-
-  //   newOrder.items.forEach(async (item) => {
-  //     const productId = item.product.productId;
-
-  //     const inventoryChange = new InventoryDto();
-  //     inventoryChange.productId = productId;
-  //     inventoryChange.inventoryMovement = -item.quantity;
-
-  //     inventoryChanges.push(inventoryChange);
-  //   });
-
-  //   oldOrder.items.forEach(async (item) => {
-  //     const productId = item.product.productId;
-
-  //     const existingItem = inventoryChanges.find(
-  //       (item) => item.productId === productId,
-  //     );
-  //     if (existingItem) {
-  //       existingItem.inventoryMovement += item.quantity;
-  //     } else {
-  //       const inventoryChange = new InventoryDto();
-  //       inventoryChange.productId = productId;
-  //       inventoryChange.inventoryMovement = -item.quantity;
-
-  //       inventoryChanges.push(inventoryChange);
-  //     }
-  //   });
-
-  //   await Promise.all(
-  //     inventoryChanges.map(async (change) => {
-  //       const productId = change.productId;
-
-  //       const product = await this.productRepository.getProductById(productId);
-
-  //       if (!product) {
-  //         throw new NotFoundException(`Product ${productId} not found`);
-  //       }
-
-  //       if (product.getStock() < -change.inventoryMovement) {
-  //         throw new BadRequestException(`Product ${productId} out of stock!`);
-  //       }
-
-  //       await this.inventoryManageService.manage(change);
-  //     }),
-  //   );
-  // }
 }

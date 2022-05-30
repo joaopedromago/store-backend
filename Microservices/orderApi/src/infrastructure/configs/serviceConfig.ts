@@ -9,4 +9,5 @@ export const serviceConfig = {
     process.env.MONGO_URL || 'mongodb://localhost:27017/MicroserviceOrderApi',
   kafkaUrl: process.env.KAFKA_URL,
   kafkaClientId: process.env.KAFKA_CLIENT_ID,
+  inventoryUrl: process.env.INVENTORY_URL,
 };

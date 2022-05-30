@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { OrderRepositoryProvider } from 'src/infrastructure/adapters';
+import { InventoryModule } from 'src/modules/inventory/inventory.module';
 import {
   UpdateOrder,
   CreateOrder,
@@ -23,6 +24,7 @@ import { OrderController } from 'src/modules/order/userInterface/restControllers
         schema: OrderEntitySchema,
       },
     ]),
+    InventoryModule,
   ],
   providers: [
     OrderRepositoryProvider,
