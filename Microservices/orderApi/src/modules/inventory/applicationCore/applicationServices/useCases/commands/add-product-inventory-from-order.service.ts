@@ -14,7 +14,7 @@ export class AddProductInventoryFromOrder {
     this.logger.verbose('Updating Inventory');
 
     await this.requestProvider.post(
-      `${serviceConfig.inventoryUrl}/addProductInventoryFromOrder`,
+      `${serviceConfig.inventoryUrl}addProductInventoryFromOrder`,
       order,
     );
   }

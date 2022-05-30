@@ -17,7 +17,7 @@ export class ManageProductInventoryFromOrderUpdate {
     this.logger.verbose('Updating Inventory');
 
     await this.requestProvider.post(
-      `${serviceConfig.inventoryUrl}/manageProductInventoryFromOrderUpdate`,
+      `${serviceConfig.inventoryUrl}manageProductInventoryFromOrderUpdate`,
       { newOrder, oldOrder },
     );
   }
