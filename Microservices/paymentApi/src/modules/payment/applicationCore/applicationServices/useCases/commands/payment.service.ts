@@ -13,6 +13,6 @@ export class PaymentService {
   async updatePaymentStatus(paymentStatus: PaymentStatusDto) {
     this.logger.verbose('Updating Payment status');
 
-    this.eventService.emit(Topic.UpdateShipmentState, paymentStatus);
+    this.eventService.emit(Topic.UpdatePaymentStatus, paymentStatus);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 
 import { ManageProductInventoryFromOrderCreation } from 'src/modules/inventory/applicationCore/applicationServices/useCases';
 import { OrderEntity } from 'src/modules/order/applicationCore/domain/order.entity';
@@ -15,11 +15,15 @@ export class CreateOrder {
   ) {}
 
   async create(order: OrderDto): Promise<OrderEntity> {
-    this.logger.verbose('Creating Order');
+    try {
+      this.logger.verbose('Creating Order');
 
-    await this.manageProductInventoryFromOrderCreationService.manage(order);
-    const result = await this.orderRepository.createOrder(order);
+      await this.manageProductInventoryFromOrderCreationService.manage(order);
+      const result = await this.orderRepository.createOrder(order);
 
-    return result;
+      return result;
+    } catch (error) {
+      throw new BadRequestException(error.response?.data?.message ?? error.message);
+    }
   }
 }
